@@ -75,6 +75,10 @@ function GetRedirectUrl($slug){
     $result = $conn->query($query);
     if ($result->num_rows > 0){
         $row = $result->fetch_assoc();
+        // increase the hit in DB
+        $hits=$row['hits']+1;
+        $sql = "update short_links set hits='".$hits."' where id='".$row['id']."' ";
+        $conn->query($sql);
         return $row['url'];
     }else{
         die("Invalid link");

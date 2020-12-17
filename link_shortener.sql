@@ -28,8 +28,10 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `short_links` (
+  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `url` text NOT NULL,
-  `short_code` varchar(50) NOT NULL
+  `short_code` varchar(50) NOT NULL,
+  `hits` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 COMMIT;
 
