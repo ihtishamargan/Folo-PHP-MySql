@@ -8,22 +8,22 @@
 </head>
 <body>
     <h1> Paste your url here, We will make it short :) </h1>
-    <form name="form" action="" method="post">
+    <form name="form" action="" method="get">
     <p><input style="width: 500px; height: 22px;" type="url" name="url" required /></p>
     <p><input class="button" type="submit" /></p>
 </form>
 <?php
 include 'db_connection.php';
-$base_url = "localhost/folo tasks/folo-php-mysql";
+$base_url = "localhost/folo/folo-php-mysql";
 
-if(isset($_POST['url']) && $_POST['url']!=""){ 
-    $url = urldecode($_POST['url']);
+if(isset($_GET['url']) && $_GET['url']!=""){ 
+    $url = urldecode($_GET['url']);
     if(filter_var($url, FILTER_VALIDATE_URL)){
         //create connection
         $conn = OpenCon();
         $slug = getShortUrl($url);
+        echo $base_url; echo"/"; echo $slug;
         Closecon($conn);
-        echo 'Here is the short <a href="'; echo $base_url; echo"/"; echo $slug;
     }
 }
 
@@ -59,6 +59,28 @@ function getShortUrl($url){
             }
         }
     }
+
+if(isset($_GET['redirect']) && $_GET['redirect']!= ""){
+    $slug = urldecode($_GET['redirect']);
+    $conn = OpenCon();
+    $url = GetRedirectUrl($slug);
+    CloseCon($conn);
+    header("location:.$url");
+    exit;
+}   
+
+function GetRedirectUrl($slug){
+    global $conn;
+    $query = "SELECT * FROM short_links WHERE short_code = '".addslashes($slug)."'";
+    $result = $conn->query($query);
+    if ($result->num_rows > 0){
+        $row = $result->fetch_assoc();
+        return $row['url'];
+    }else{
+        die("Invalid link");
+    }
+    
+}
 
 ?>
 </body>
