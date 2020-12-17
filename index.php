@@ -65,7 +65,7 @@ if(isset($_GET['redirect']) && $_GET['redirect']!= ""){
     $conn = OpenCon();
     $url = GetRedirectUrl($slug);
     CloseCon($conn);
-    header("location:.$url");
+    header("location:$url");
     exit;
 }   
 
