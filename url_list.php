@@ -19,16 +19,29 @@ include 'db_connection.php';
 
         $conn = OpenCon();
 
-        $total_pages_sql = "SELECT COUNT(*) FROM table";
+        $total_pages_sql = "SELECT COUNT(*) FROM short_links";
         $result = mysqli_query($conn,$total_pages_sql);
         $total_rows = mysqli_fetch_array($result)[0];
         $total_pages = ceil($total_rows / $no_of_records_per_page);
 
-        $sql = "SELECT * FROM table LIMIT $offset, $no_of_records_per_page";
+        $sql = "SELECT * FROM short_links LIMIT $offset, $no_of_records_per_page";
         $res_data = mysqli_query($conn,$sql);
+        echo '<table class="table table-striped table-bordered table-hover">'; 
+            echo"<TR><TD>Id</TD><TD>URL</TD><TD>Short Code</TD><TD>Hits</TD></TR>"; 
         while($row = mysqli_fetch_array($res_data)){
-            //here goes the data
-        }
+            
+            echo "<tr><td>"; 
+            echo $row['id'];
+            echo "</td><td>";
+            echo $row['url'];
+            echo "</td><td>";   
+            echo $row['short_code'];
+            echo "</td><td>";    
+            echo $row['hits'];
+            echo "</TD></tr>";  
+            
+            
+        }echo "</table>"; 
         CloseCon($conn);
     ?>
     <ul class="pagination">
