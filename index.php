@@ -1,12 +1,35 @@
+<?php
+// Initialize the session
+session_start();
+ 
+// Check if the user is logged in, if not then redirect him to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>URL Shortener</title>
-    <link rel="stylesheet" href="style.css">
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+    <style type="text/css">
+        body{ font: 14px sans-serif; text-align: center; }
+    </style>
 </head>
 <body>
+<div class="page-header">
+        <h1>Hi, <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b>. Welcome to our site.</h1>
+    </div>
+    <p>
+        <a href="welcome.php" class="btn btn-primary">Home</a>
+        <a href="index.php" class="btn btn-primary">Create Short Link</a>
+        <a href="reset-password.php" class="btn btn-warning">Reset Your Password</a>
+        <a href="logout.php" class="btn btn-danger">Sign Out of Your Account</a>
+    </p>
     <h1> Paste your url here, We will make it short :) </h1>
     <form name="form" action="" method="get">
     <p><input style="width: 500px; height: 22px;" type="url" name="url" required /></p>
@@ -52,6 +75,8 @@ function getShortUrl($url){
         $short_code = generateCode();
         $sql = "INSERT INTO short_links (url, short_code) VALUES ('".$url."','".$short_code."')";
         if($conn->query($sql)==TRUE){
+            $sql = "INSERT INTO users_links (userId, short_links_id) VALUES ('".$_SESSION["id"]."','".$conn->insert_id."')";
+            $conn->query($sql);
             return $short_code;
         }else{
             die("unknown error occured");
