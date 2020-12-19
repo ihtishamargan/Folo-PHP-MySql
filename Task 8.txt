@@ -1,0 +1,4 @@
+To run the script once per day,  we will have to add a cron job in crontab file.
+Script to run once per day will look something like this:
+
+0 0 * * * /path/delete-30days-old.php
