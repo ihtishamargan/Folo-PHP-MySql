@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 18, 2020 at 11:24 PM
+-- Generation Time: Dec 19, 2020 at 08:32 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.2.31
 
@@ -31,21 +31,25 @@ CREATE TABLE `short_links` (
   `id` int(11) NOT NULL,
   `url` text NOT NULL,
   `short_code` varchar(50) NOT NULL,
-  `hits` int(11) NOT NULL
+  `hits` int(11) NOT NULL,
+  `date_time` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `short_links`
 --
 
-INSERT INTO `short_links` (`id`, `url`, `short_code`, `hits`) VALUES
-(1, 'https://www.facebook.com/etribune/videos/705081976979186/', '47b', 0),
-(2, 'https://www.facebook.com/etribune/videos/705081976979186/kbhk', 'd47', 0),
-(3, 'https://www.facebook.com/AbdulAzizAbroPTI/videos/2910338662521627/', '136', 0),
-(4, 'https://www.facebook.com', '57f', 1),
-(5, 'http://youtube.com', '0cf', 0),
-(6, 'http://twitter.com', '7c0', 0),
-(7, 'http://google.com', 'f3d', 0);
+INSERT INTO `short_links` (`id`, `url`, `short_code`, `hits`, `date_time`) VALUES
+(1, 'https://www.facebook.com/etribune/videos/705081976979186/', '47b', 0, '2020-12-19 16:30:50'),
+(2, 'https://www.facebook.com/etribune/videos/705081976979186/kbhk', 'd47', 0, '2020-12-19 16:30:50'),
+(3, 'https://www.facebook.com/AbdulAzizAbroPTI/videos/2910338662521627/', '136', 0, '2020-12-19 16:30:50'),
+(4, 'https://www.facebook.com', '57f', 1, '2020-12-19 16:30:50'),
+(5, 'http://youtube.com', '0cf', 0, '2020-12-19 16:30:50'),
+(6, 'http://twitter.com', '7c0', 0, '2020-12-19 16:30:50'),
+(8, 'http://twitter.com/ihtisham.ahmad', 'ef2', 1, '2020-12-19 16:30:50'),
+(9, 'http://linkedin.com/ihtisham.ahmad', '404', 2, '2020-12-19 16:30:50'),
+(10, 'http://instagram.com', 'e22', 0, '2020-12-19 16:30:50'),
+(11, 'http://foolography.com', '443', 0, '2020-12-19 16:30:50');
 
 -- --------------------------------------------------------
 
@@ -84,7 +88,10 @@ CREATE TABLE `users_links` (
 --
 
 INSERT INTO `users_links` (`id`, `userId`, `short_links_id`) VALUES
-(1, 1, 7);
+(2, 1, 8),
+(3, 1, 9),
+(4, 1, 10),
+(5, 1, 11);
 
 --
 -- Indexes for dumped tables
@@ -119,7 +126,7 @@ ALTER TABLE `users_links`
 -- AUTO_INCREMENT for table `short_links`
 --
 ALTER TABLE `short_links`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -131,7 +138,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users_links`
 --
 ALTER TABLE `users_links`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
@@ -141,8 +148,8 @@ ALTER TABLE `users_links`
 -- Constraints for table `users_links`
 --
 ALTER TABLE `users_links`
-  ADD CONSTRAINT `short link` FOREIGN KEY (`short_links_id`) REFERENCES `short_links` (`id`),
-  ADD CONSTRAINT `user` FOREIGN KEY (`userId`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `short link` FOREIGN KEY (`short_links_id`) REFERENCES `short_links` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
