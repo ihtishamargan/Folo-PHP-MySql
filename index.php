@@ -29,10 +29,11 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         <a href="index.php" class="btn btn-primary">Create Short Link</a>
         <a href="reset-password.php" class="btn btn-warning">Reset Your Password</a>
         <a href="logout.php" class="btn btn-danger">Sign Out of Your Account</a>
+        <a href="url_list.php" class="btn btn-primary">All short Urls</a>
     </p>
     <h1> Paste your url here, We will make it short :) </h1>
     <form name="form" action="" method="get">
-    <p><input style="width: 500px; height: 22px;" type="url" name="url" required /></p>
+    <p><input style="width: 500px; height: 22px; margin-top: 60px;" type="url" name="url" required /></p>
     <p><input class="button" type="submit" /></p>
 </form>
 <?php
@@ -45,7 +46,7 @@ if(isset($_GET['url']) && $_GET['url']!=""){
         //create connection
         $conn = OpenCon();
         $slug = getShortUrl($url);
-        echo $base_url; echo"/"; echo $slug;
+        echo "Your short url: ";echo "<b>";echo $base_url; echo"/"; echo $slug;echo "</b>";
         Closecon($conn);
     }
 }
